@@ -17,7 +17,7 @@ public class FileController implements FileApi {
     private final StorageService storageService;
 
     @Override
-    public ResponseEntity<FileMetadata> handleFileUpload(@Valid @ModelAttribute FileUploadRequestDTO uploadRequestDto) {
+    public ResponseEntity<FileMetadata> uploadFile(@Valid @ModelAttribute FileUploadRequestDTO uploadRequestDto) {
         FileMetadata fileMetadata = storageService.store(uploadRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(fileMetadata);
     }

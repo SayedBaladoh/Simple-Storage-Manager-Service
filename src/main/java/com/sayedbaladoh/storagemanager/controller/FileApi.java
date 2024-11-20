@@ -25,10 +25,9 @@ public interface FileApi {
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<FileMetadata> handleFileUpload(@Parameter(
+    ResponseEntity<FileMetadata> uploadFile(@Parameter(
             description = "File upload request details",
             required = true,
             schema = @Schema(implementation = FileUploadRequestDTO.class))
-                                                  @Valid
-                                                  @ModelAttribute FileUploadRequestDTO uploadRequestDto);
+                                            @Valid @ModelAttribute FileUploadRequestDTO uploadRequestDto);
 }
