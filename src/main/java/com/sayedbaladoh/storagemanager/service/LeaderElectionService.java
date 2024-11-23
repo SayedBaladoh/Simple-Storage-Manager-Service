@@ -3,6 +3,7 @@ package com.sayedbaladoh.storagemanager.service;
 import com.sayedbaladoh.storagemanager.repository.LeaderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,14 @@ public class LeaderElectionService {
         return isCurrentLeader() || tryToBecomeLeader();
     }
 
+    @Scheduled(fixedRate = 5000)
+    public void sendHeartbeat() {
+        // Extend the leader key's expiration time to maintain leadership
+        if (isCurrentLeader()) {
+            leaderRepository.maintainLeadership();
+        }
+    }
+
     private boolean tryToBecomeLeader() {
         log.info("Trying {} to become a leader.", INSTANCE_ID);
         return leaderRepository.setLeader(INSTANCE_ID);
@@ -28,4 +37,5 @@ public class LeaderElectionService {
         log.info("Is current {} leader: {}.", INSTANCE_ID, isLeader);
         return isLeader;
     }
+
 }

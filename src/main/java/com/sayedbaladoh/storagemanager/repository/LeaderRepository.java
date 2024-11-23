@@ -29,4 +29,10 @@ public class LeaderRepository {
     public String getLeader() {
         return valueOperations.get(LEADER_KEY);
     }
+
+    public void maintainLeadership() {
+        // Extend the leader key's expiration time to maintain leadership
+        // redisTemplate.expire(LEADER_KEY, LEADER_TTL, TimeUnit.SECONDS);
+        valueOperations.getAndExpire(LEADER_KEY, LEADER_TTL, TimeUnit.SECONDS);
+    }
 }
